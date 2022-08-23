@@ -19,6 +19,7 @@ fetch_data <- function() {
 
 #' @export
 filter_species <- function(data, species) {
+  rhino$log$info("Filtering")
   data |>
     dplyr$filter(Species %in% species)
 }

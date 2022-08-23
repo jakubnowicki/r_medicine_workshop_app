@@ -1,5 +1,5 @@
 box::use(
-  shiny[moduleServer, NS],
+  shiny[moduleServer, NS, validate, need],
   echarts4r[echarts4rOutput, renderEcharts4r],
 )
 
@@ -16,8 +16,11 @@ ui <- function(id) {
 #' @export
 server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
-    output$chart <- renderEcharts4r(
+    output$chart <- renderEcharts4r({
+      validate(
+        need(nrow(data()) > 0, "Select some species to see the chart")
+      )
       chart(data())
-    )
+    })
   })
 }
